@@ -35,3 +35,11 @@
 - DELETE /reservations/:id
 - PATCH /reservations/:id/validate
 
+## Statuts HTTP utilisés
+
+- 201
+- 403
+- 404
+- 500
+  
+
