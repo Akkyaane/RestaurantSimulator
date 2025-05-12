@@ -1,10 +1,14 @@
 const express = require('express');
-const db = require('./db');
+const db = require('./config/db');
 const pool = db;
 
 const app = express();
+const authRoutes = require('./routes/authRoutes'); // Chemin vers le fichier ci-dessus
+require('dotenv').config();
 
 app.use(express.json());
+// Permet d'ajouter les routes d'authentification
+app.use(authRoutes);
 
 (async () => {
     try {
