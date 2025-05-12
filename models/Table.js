@@ -62,5 +62,4 @@ const getAvailableTables = async (numberOfPeople, reservationDate) => {
 module.exports = {
   getAllTables,
   getAvailableTables,
-  addTable,
 };

@@ -4,6 +4,7 @@ const pool = db;
 
 const app = express();
 const authRoutes = require('./routes/authRoutes'); // Chemin vers le fichier ci-dessus
+const reservationRoutes = require('./routes/reservationRoutes.js')
 require('dotenv').config();
 
 app.use(express.json());
