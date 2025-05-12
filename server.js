@@ -27,10 +27,10 @@ app.get('/', (req, res) => {
 
 
 const menuRoutes = require('./routes/menuRoutes');
+const tableRoutes = require('./routes/tableRoutes');
 
 app.use('/menu', menuRoutes);
-
-
+app.use('/tables', tableRoutes);
 
 // app.post('/tasks', async (req, res) => {
 //     try {
