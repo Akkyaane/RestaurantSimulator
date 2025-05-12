@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('./db');
+const db = require('./config/db'); // Assurez-vous que le chemin est correct
 const pool = db;
 
 const app = express();
@@ -23,6 +23,14 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.send('Bienvenue');
 });
+
+
+
+const menuRoutes = require('./routes/menuRoutes');
+
+app.use('/menu', menuRoutes);
+
+
 
 // app.post('/tasks', async (req, res) => {
 //     try {
