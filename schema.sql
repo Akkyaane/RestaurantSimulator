@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 12 mai 2025 à 09:14
+-- Généré le : lun. 12 mai 2025 à 16:28
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -32,7 +32,16 @@ CREATE TABLE IF NOT EXISTS `category` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `category`
+--
+
+INSERT INTO `category` (`id`, `name`) VALUES
+(1, 'Entrée'),
+(2, 'Plat principal'),
+(3, 'Dessert');
 
 -- --------------------------------------------------------
 
@@ -60,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `menu_items` (
 DROP TABLE IF EXISTS `opening_slots`;
 CREATE TABLE IF NOT EXISTS `opening_slots` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `date` datetime NOT NULL,
+  `date_time` datetime NOT NULL,
   `duration` time NOT NULL,
   `available` tinyint(1) NOT NULL,
   `comment` varchar(400) NOT NULL,
@@ -79,6 +88,7 @@ CREATE TABLE IF NOT EXISTS `reservations` (
   `user_id` int NOT NULL,
   `number_people` int NOT NULL,
   `date` datetime NOT NULL,
+  `time` time NOT NULL,
   `status_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
@@ -93,9 +103,11 @@ CREATE TABLE IF NOT EXISTS `reservations` (
 
 DROP TABLE IF EXISTS `reservation_tables`;
 CREATE TABLE IF NOT EXISTS `reservation_tables` (
-  `reservation_id` int NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `reservation_id` int NOT NULL,
   `table_id` int NOT NULL,
-  PRIMARY KEY (`reservation_id`),
+  PRIMARY KEY (`id`),
+  KEY `reservation_id` (`reservation_id`,`table_id`),
   KEY `table_id` (`table_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -117,8 +129,8 @@ CREATE TABLE IF NOT EXISTS `role` (
 --
 
 INSERT INTO `role` (`id`, `role`) VALUES
-(1, 'admin'),
-(2, 'client');
+(1, 'Admin'),
+(2, 'Client');
 
 -- --------------------------------------------------------
 
@@ -138,9 +150,9 @@ CREATE TABLE IF NOT EXISTS `status` (
 --
 
 INSERT INTO `status` (`id`, `status`) VALUES
-(1, 'Pas commencé'),
-(2, 'En cours'),
-(3, 'Terminé');
+(1, 'Pending'),
+(2, 'Confirmed'),
+(3, 'Cancelled');
 
 -- --------------------------------------------------------
 
