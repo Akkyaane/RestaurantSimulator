@@ -28,16 +28,6 @@ app.get('/', (req, res) => {
     res.send('Bienvenue');
 });
 
-
-
-const menuRoutes = require('./routes/menuRoutes');
-const tableRoutes = require('./routes/tableRoutes');
-
-app.use('/menu', menuRoutes);
-app.use('/tables', tableRoutes);
-
-
-
 const menuRoutes = require('./routes/menuRoutes');
 const tableRoutes = require('./routes/tableRoutes');
 
