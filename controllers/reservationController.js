@@ -1,9 +1,11 @@
 const models = require('../models/Reservation');
 
 async function getAllReservations(req, res) {
-    const userId = req.body["user_id"];
+    const user_id = req.headers["user_id"];
 
-    if (userId === 1) {
+
+    // Is not empty
+    if (parseInt(user_id) === 1) {
         try {
             const rows = await models.getAllReservations();
             return res.json(rows);
@@ -17,11 +19,11 @@ async function getAllReservations(req, res) {
 
 async function getAllReservationsById(req, res) {
     //Comparer avec la valeur de la session
-    const userId = req.body["user_id"];
+    const user_id = req.headers["user_id"];
 
-    if (userId) {
+    if (parseInt(user_id) === 1) {
         try {
-            const rows = await models.getAllReservationsById(userId);
+            const rows = await models.getAllReservationsById(user_id);
             return res.json(rows);
         } catch (err) {
             return res.status(500).json({ error: err.message });
@@ -33,11 +35,11 @@ async function getAllReservationsById(req, res) {
 
 async function getReservationById(req, res) {
     //Comparer avec la valeur de la session
-    const {userId, reservationId} = req.body;
+    const {user_id, reservation_id} = req.headers;
 
-    if (userId) {
+    if (parseInt(user_id) === 1) {
         try {
-            const rows = await models.getReservationById(reservationId);
+            const rows = await models.getReservationById(reservation_id);
             return res.json(rows);
         } catch (err) {
             return res.status(500).json({ error: err.message });
@@ -48,17 +50,21 @@ async function getReservationById(req, res) {
 }
 
 async function addReservation(req, res) {
-    const userId = req.body["user_id"];
+    const user_id = req.body["user_id"];
 
-    if (userId) {
-        const {numberPeople, date} = req.body;
+    if (parseInt(user_id) === 1) {
+        const {numberPeople} = req.body;
+        const { date } = req.body;
+        // Mise en forme de la date pour correspondre au format SQL
+        const formattedDate = new Date(date).toISOString().slice(0, 19).replace('T', ' ');
+
         const statusId = 1; 
 
         //Vérifier que le créneau est disponible 
         //Séparer le nombre de personnes si trop
     
         try {
-            const rows = await models.addReservation(userId, numberPeople, date, statusId);
+            const rows = await models.addReservation(user_id, numberPeople, formattedDate, statusId);
             return res.json(rows);
         } catch (err) {
             return res.status(500).json({ error: err.message });
@@ -69,17 +75,19 @@ async function addReservation(req, res) {
 }
 
 async function updateReservation(req, res) {
-    const {userId, reservationId} = req.body;
-    const reservation = models.getReservationById(reservationId)
+    const {user_id, reservation_id,status_id} = req.body;
+    const reservation = await models.getReservationById(reservation_id)
 
-    if (userId == reservation["user_id"]) {
-        const {numberPeople, date} = req.body;
-
-        //Vérifier que le créneau est disponible 
+    if (parseInt(user_id) === reservation[0]?.user_id) {
+        const {numberPeople} = req.body;
+        const { date } = req.body;
+        // Mise en forme de la date pour correspondre au format SQL
+        const formattedDate = new Date(date).toISOString().slice(0, 19).replace('T', ' ');
+        //Vérifier que le créneau est disponible
         //Séparer le nombre de personnes si trop
     
         try {
-            const rows = await models.updateReservation(userId, numberPeople, date, statusId, reservationId);
+            const rows = await models.updateReservation(user_id, numberPeople, formattedDate, status_id, reservation_id);
             return res.json(rows);
         } catch (err) {
             return res.status(500).json({ error: err.message });
@@ -90,12 +98,12 @@ async function updateReservation(req, res) {
 }
 
 async function deleteReservation(req, res) {
-    const {userId, reservationId, roleId} = req.body;
-    const reservation = models.getReservationById(reservationId)
+    const {user_id, reservation_id} = req.headers;
+    const reservation = await models.getReservationById(reservation_id)
 
-    if (userId == reservation["user_id"] || (roleId == 1)) {
+    if (parseInt(user_id) == reservation[0]?.user_id || (parseInt(user_id) == 1)) {
         try {
-            const rows = await models.deleteReservation(reservationId);
+            const rows = await models.deleteReservation(reservation_id);
             return res.json(rows);
         } catch (err) {
             return res.status(500).json({ error: err.message });
@@ -106,11 +114,11 @@ async function deleteReservation(req, res) {
 }
 
 async function validateReservation(req, res) {
-    const {reservationId, roleId} = req.body;
+    const {reservation_id, roleId} = req.body;
     
-    if (roleId == 1) {
+    if (parseInt(user_id) == 1) {
         try {
-            const rows = await models.validateReservation(reservationId);
+            const rows = await models.validateReservation(reservation_id);
             return res.json(rows);
         } catch (err) {
             return res.status(500).json({ error: err.message });

@@ -1,0 +1,96 @@
+Index: models/Table.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/models/Table.js b/models/Table.js
+--- a/models/Table.js	(revision 1f490087ab22a4f835f8e77954d87983cfc8853b)
++++ b/models/Table.js	(date 1747062300540)
+@@ -1,0 +1,47 @@
++const db = require('../config/db');
++
++// Fonction pour obtenir toutes les tables
++const getAllTables = async () => {
++    try {
++        const [results] = await db.query('SELECT * FROM tables');
++        return results;
++    } catch (err) {
++        throw new Error('Erreur lors de la récupération des tables : ' + err.message);
++    }
++};
++
++// Fonction pour obtenir les tables disponibles en fonction du nombre de personnes et de la date de réservation
++const getAvailableTables = async (numberOfPeople, reservationDate) => {
++    try {
++        const [results] = await db.query(
++            `SELECT t.id, t.seats
++         FROM tables t
++         WHERE t.seats >= ?
++         AND NOT EXISTS (
++             SELECT 1
++             FROM reservation_tables rt
++             JOIN reservations r ON rt.reservation_id = r.id
++             WHERE rt.table_id = t.id
++             AND r.date = ?
++     )`, [numberOfPeople, reservationDate]);
++        return results;
++    } catch (err) {
++        throw new Error('Erreur lors de la vérification des disponibilités : ' + err.message);
++    }
++};
++
++// Fonction pour ajouter une table
++const addTable = async (seats) => {
++    try {
++        const result = await db.query('INSERT INTO tables (seats) VALUES (?)', [seats]);
++        return result;
++    } catch (err) {
++        throw new Error('Erreur lors de l4ajout de la table : ' + err.message);
++    }
++};
++
++module.exports = {
++    getAllTables,
++    getAvailableTables,
++    addTable,
++};
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"0ab4e4de-3012-4aa8-b251-096b3b55a53d\" name=\"Changes\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/.env\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/controllers/authController.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/controllers/authController.js\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/middleware/authMiddleware.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/middleware/authMiddleware.js\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/node_modules/.package-lock.json\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/node_modules/.package-lock.json\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/package-lock.json\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/package-lock.json\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/package.json\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/package.json\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/routes/authRoutes.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/routes/authRoutes.js\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/server.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/server.js\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"ComposerSettings\">\n    <execution />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"corentin\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"PhpWorkspaceProjectConfiguration\" interpreter_name=\"/opt/homebrew/Cellar/php/8.3.13_1/bin/php\" />\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 2\n}</component>\n  <component name=\"ProjectId\" id=\"2wzMffEwzApran0s96yUNHjHoxq\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;Node.js.authController.js.executor&quot;: &quot;Run&quot;,\n    &quot;Node.js.authRoutes.js.executor&quot;: &quot;Run&quot;,\n    &quot;Node.js.db.js.executor&quot;: &quot;Run&quot;,\n    &quot;Node.js.server.js.executor&quot;: &quot;Run&quot;,\n    &quot;Node.js.serverHTTP.js.executor&quot;: &quot;Run&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;Auth-MCorentin&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/emk/PhpstormProjects/RestaurantSimulator&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,\n    &quot;ts.external.directory.path&quot;: &quot;/Applications/PhpStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  },\n  &quot;keyToStringList&quot;: {\n    &quot;DatabaseDriversLRU&quot;: [\n      &quot;mysql&quot;\n    ]\n  }\n}</component>\n  <component name=\"RunManager\">\n    <configuration name=\"server.js\" type=\"NodeJSConfigurationType\" temporary=\"true\" nameIsGenerated=\"true\" path-to-js-file=\"$PROJECT_DIR$/server.js\" working-dir=\"$PROJECT_DIR$\">\n      <method v=\"2\" />\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Node.js.server.js\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SharedIndexes\">\n    <attachedChunks>\n      <set>\n        <option value=\"bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PS-243.26053.13\" />\n        <option value=\"bundled-php-predefined-a98d8de5180a-1ec7b7818973-com.jetbrains.php.sharedIndexes-PS-243.26053.13\" />\n      </set>\n    </attachedChunks>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"0ab4e4de-3012-4aa8-b251-096b3b55a53d\" name=\"Changes\" comment=\"\" />\n      <created>1747040053528</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1747040053528</updated>\n      <workItem from=\"1747040054629\" duration=\"72000\" />\n      <workItem from=\"1747040237095\" duration=\"805000\" />\n      <workItem from=\"1747041047818\" duration=\"126000\" />\n      <workItem from=\"1747041185989\" duration=\"1148000\" />\n      <workItem from=\"1747043224161\" duration=\"11870000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\n    <expand />\n    <select />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 1f490087ab22a4f835f8e77954d87983cfc8853b)
++++ b/.idea/workspace.xml	(date 1749567802764)
+@@ -5,14 +5,7 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="0ab4e4de-3012-4aa8-b251-096b3b55a53d" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/controllers/authController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/authController.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/middleware/authMiddleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/authMiddleware.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/routes/authRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/authRoutes.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/models/Table.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/Table.js" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -112,6 +105,13 @@
+         </entry>
+       </map>
+     </option>
++  </component>
++  <component name="XDebuggerManager">
++    <watches-manager>
++      <configuration name="NodeJSConfigurationType">
++        <watch expression=" FROM tables t&#10;             WHERE t.seats &gt;= ?&#10;             AND NOT EXISTS (&#10;                 SELECT 1&#10;                 FROM reservation_tables rt&#10;                 JOIN reservations r ON rt.reservation_id = r.id&#10;                 WHERE rt.table_id = t.id&#10;                 AND r.date = ?" />
++      </configuration>
++    </watches-manager>
+   </component>
+   <component name="XSLT-Support.FileAssociations.UIState">
+     <expand />
