@@ -1,11 +1,13 @@
 const models = require('../models/Reservation');
+const superUser = require('../models/User')
 
 async function getAllReservations(req, res) {
     const user_id = req.headers["user_id"];
 
+    // Vérifier que l'utilisateur est admin (user_id = 1)
+    const isAdmin = await superUser.getUserById(user_id);
 
-    // Is not empty
-    if (parseInt(user_id) === 1) {
+    if (isAdmin[0].role_id === 1) {
         try {
             const rows = await models.getAllReservations();
             return res.json(rows);
@@ -78,7 +80,7 @@ async function updateReservation(req, res) {
     const {user_id, reservation_id,status_id} = req.body;
     const reservation = await models.getReservationById(reservation_id)
 
-    if (parseInt(user_id) === reservation[0]?.user_id) {
+    if (parseInt(user_id) === reservation[0].user_id) {
         const {numberPeople} = req.body;
         const { date } = req.body;
         // Mise en forme de la date pour correspondre au format SQL
@@ -101,7 +103,7 @@ async function deleteReservation(req, res) {
     const {user_id, reservation_id} = req.headers;
     const reservation = await models.getReservationById(reservation_id)
 
-    if (parseInt(user_id) == reservation[0]?.user_id || (parseInt(user_id) == 1)) {
+    if (parseInt(user_id) == reservation[0].user_id || (parseInt(user_id) == 1)) {
         try {
             const rows = await models.deleteReservation(reservation_id);
             return res.json(rows);

@@ -29,6 +29,9 @@ app.get('/', (req, res) => {
     res.send('Bienvenue');
 });
 
+const cors = require('cors');
+app.use(cors());
+
 const menuRoutes = require('./routes/menuRoutes');
 const tableRoutes = require('./routes/tableRoutes');
 

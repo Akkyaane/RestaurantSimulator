@@ -1,5 +1,10 @@
 const pool = require('../config/db.js');
 
+const jwt = require('jsonwebtoken');/**
+ * Verifies the JWT token from the Authorization header
+ * @param {string} token - The JWT token to verify
+ * @returns {object|null} - The decoded token payload or null if invalid
+ */
 async function getAllReservations() {
     const [rows] = await pool.query('SELECT * FROM reservations');
     return rows
@@ -41,6 +46,7 @@ async function validateReservation(reservationId) {
     return rows
 }
 
+
 module.exports = {
     getAllReservations,
     getAllReservationsById,
@@ -48,10 +54,8 @@ module.exports = {
     addReservation,
     updateReservation,
     deleteReservation,
-    validateReservation,
+    validateReservation
 }
-
-
 
 
 
