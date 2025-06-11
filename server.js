@@ -11,6 +11,8 @@ app.use(express.json());
 // Permet d'ajouter les routes d'authentification
 app.use(authRoutes);
 
+
+
 (async () => {
     try {
         const connection = await db.getConnection();
@@ -35,10 +37,11 @@ app.use(cors());
 const menuRoutes = require('./routes/menuRoutes');
 const tableRoutes = require('./routes/tableRoutes');
 
-app.use('/menu', menuRoutes);
 app.use('/tables', tableRoutes);
 
+app.use(menuRoutes);
 reservationRoutes(app);
+
 
 const port = 3001;
 
