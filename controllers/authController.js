@@ -3,17 +3,17 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const signup = async (req, res) => {
-    const {Email,Password,FirstName,LastName,Phone,RoleId} = req.body;
+    const {email,password,firstName,lastName,phone} = req.body;
 
     try {
-        const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [Email]);
+        const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
         if (rows.length > 0) {
             return res.status(409).json({ message: 'Utilisateur déjà existant' });
         }
 
-        const hashedPassword = await bcrypt.hash(Password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
         await pool.query('INSERT INTO users (email,password_hash,fname,lname,phone,role_id) VALUES (?,?,?,?,?,?)',
-            [Email,hashedPassword,FirstName,LastName,Phone,RoleId]);
+            [email,hashedPassword,firstName,lastName,phone,"2"]);
 
         res.status(201).json({ message: 'Utilisateur créé' });
     } catch (err) {
@@ -22,16 +22,16 @@ const signup = async (req, res) => {
 };
 
 const login = async (req, res) => {
-    const {Email, Password } = req.body;
+    const {email, password } = req.body;
 
     try {
-        const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [Email]);
+        const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
         if (rows.length === 0) {
             return res.status(401).json({ message: 'Identifiants invalides' });
         }
 
         const user = rows[0];
-        const isMatch = await bcrypt.compare(Password, user.password_hash);
+        const isMatch = await bcrypt.compare(password, user.password_hash);
         if (!isMatch) {
             return res.status(401).json({ message: 'Mot de passe incorrect' });
         }

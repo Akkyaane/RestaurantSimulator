@@ -7,10 +7,9 @@
     <list default="true" id="0ab4e4de-3012-4aa8-b251-096b3b55a53d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/db.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/db.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/reservationController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/reservationController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Reservation.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/Reservation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Table.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/Table.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/reservationRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/reservationRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/authController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/authController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/menuController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/menuController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +93,7 @@
       <workItem from="1747041047818" duration="126000" />
       <workItem from="1747041185989" duration="1148000" />
       <workItem from="1747043224161" duration="11870000" />
-      <workItem from="1749567801842" duration="11580000" />
+      <workItem from="1749567801842" duration="15020000" />
     </task>
     <servers />
   </component>
@@ -132,6 +131,12 @@
           <line>52</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/controllers/authController.js</url>
+          <line>5</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

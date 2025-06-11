@@ -12,8 +12,8 @@ const getMenu = async (req, res) => {
     };
 
     const categoryMap = {
-      1: 'entrées',
-      2: 'plats',
+      2: 'entrées',
+      1: 'plats',
       3: 'desserts',
       4: 'boissons',
     };
