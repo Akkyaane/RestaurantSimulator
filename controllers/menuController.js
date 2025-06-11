@@ -4,19 +4,31 @@ const getMenu = async (req, res) => {
   try {
     const items = await menuModel.getAllMenuItems();
 
-    const menu = {
-      entrées: [],
-      plats: [],
-      desserts: [],
-      boissons: [],
-    };
+    const menu = [];
 
     const categoryMap = {
-      2: 'entrées',
-      1: 'plats',
-      3: 'desserts',
-      4: 'boissons',
+      1: 'Entrées',
+      2: 'Plats_principaux',
+      3: 'Desserts'
     };
+
+    const grouped = {};
+
+    items.forEach((item) => {
+      const categoryName = categoryMap[item.category_id];
+      if (!grouped[categoryName]) {
+        grouped[categoryName] = [];
+      }
+      grouped[categoryName].push({
+        id: item.id,
+        name: item.name,
+        description: item.description
+      });
+    });
+
+    for (const [name, dishes] of Object.entries(grouped)) {
+      menu.push({ name, dishes });
+    }
 
     items.forEach((item) => {
       const categoryName = categoryMap[item.category_id];
