@@ -1,6 +1,7 @@
 const pool = require('../config/db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const superUser = require('../models/User');
 
 const signup = async (req, res) => {
     const {email,password,firstName,lastName,phone} = req.body;
@@ -35,10 +36,12 @@ const login = async (req, res) => {
         if (!isMatch) {
             return res.status(401).json({ message: 'Mot de passe incorrect' });
         }
-        UserId = user.id;
-        const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '6h' });
 
-        res.json({ token ,UserId});
+        const isAdmin = await superUser.getUserByEmail(email);
+        // Vérification du rôle de l'utilisateur
+        const token = jwt.sign({ id: user.id, email: user.email ,role_id:isAdmin[0].role_id}, process.env.JWT_SECRET, { expiresIn: '6h' });
+
+        res.json({token});
     } catch (err) {
         res.status(500).json({ message: 'Erreur serveur', error: err.message });
     }
