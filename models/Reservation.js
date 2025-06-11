@@ -15,8 +15,8 @@ async function getAllReservationsById(userId) {
     return rows
 }
 
-async function getReservationById(reservation_Id) {
-    const [rows] = await pool.query('SELECT * FROM reservations WHERE id = ?', reservation_Id);
+async function getReservationById(reservation_Id,userId) {
+    const [rows] = await pool.query('SELECT * FROM reservations WHERE id = ? and user_id = ?', [reservation_Id,userId]);
     return rows
 }
 

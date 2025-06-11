@@ -7,6 +7,10 @@ async function getAllReservations(req, res) {
     // Vérifier que l'utilisateur est admin (user_id = 1)
     const isAdmin = await superUser.getUserById(user_id);
 
+    if (isAdmin.length === 0) {
+        return res.status(404).json({ error: "Admin non trouvé." });
+    }
+
     if (isAdmin[0].role_id === 1) {
         try {
             const rows = await models.getAllReservations();
@@ -22,8 +26,12 @@ async function getAllReservations(req, res) {
 async function getAllReservationsById(req, res) {
     //Comparer avec la valeur de la session
     const user_id = req.headers["user_id"];
+    const isExist = await superUser.getUserById(user_id);
 
-    if (parseInt(user_id) === 1) {
+    if (isExist.length === 0) {
+        return res.status(404).json({ error: "Utilisateur non trouvé." });
+    }
+    if (parseInt(user_id) === isExist[0].id) {
         try {
             const rows = await models.getAllReservationsById(user_id);
             return res.json(rows);
@@ -39,9 +47,14 @@ async function getReservationById(req, res) {
     //Comparer avec la valeur de la session
     const {user_id, reservation_id} = req.headers;
 
-    if (parseInt(user_id) === 1) {
+    const isExist = await superUser.getUserById(user_id);
+
+    if (isExist.length === 0) {
+        return res.status(404).json({ error: "Utilisateur non trouvé." });
+    }
+    if (parseInt(user_id) === isExist[0].id) {
         try {
-            const rows = await models.getReservationById(reservation_id);
+            const rows = await models.getReservationById(reservation_id, user_id);
             return res.json(rows);
         } catch (err) {
             return res.status(500).json({ error: err.message });
@@ -54,7 +67,12 @@ async function getReservationById(req, res) {
 async function addReservation(req, res) {
     const user_id = req.body["user_id"];
 
-    if (parseInt(user_id) === 1) {
+    const isExist = await superUser.getUserById(user_id);
+
+    if (isExist.length === 0) {
+        return res.status(404).json({ error: "Utilisateur non trouvé." });
+    }
+    if (parseInt(user_id) === isExist[0].id) {
         const {numberPeople} = req.body;
         const { date } = req.body;
         // Mise en forme de la date pour correspondre au format SQL
@@ -117,8 +135,13 @@ async function deleteReservation(req, res) {
 
 async function validateReservation(req, res) {
     const {reservation_id, roleId} = req.body;
-    
-    if (parseInt(user_id) == 1) {
+
+    const isExist = await superUser.getUserById(user_id);
+
+    if (isExist.length === 0) {
+        return res.status(404).json({ error: "Utilisateur non trouvé." });
+    }
+    if (parseInt(user_id) === isExist[0].id) {
         try {
             const rows = await models.validateReservation(reservation_id);
             return res.json(rows);
