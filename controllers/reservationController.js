@@ -96,7 +96,7 @@ async function addReservation(req, res) {
 
 async function updateReservation(req, res) {
     const {user_id, reservation_id,status_id} = req.body;
-    const reservation = await models.getReservationById(reservation_id)
+    const reservation = await models.getReservationById(reservation_id, user_id)
 
     if (parseInt(user_id) === reservation[0].user_id) {
         const {numberPeople} = req.body;

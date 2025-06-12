@@ -8,7 +8,7 @@ const getMenu = async (req, res) => {
 
     const categoryMap = {
       1: 'Entrées',
-      2: 'Plats_principaux',
+      2: 'Plats principaux',
       3: 'Desserts'
     };
 
@@ -22,7 +22,8 @@ const getMenu = async (req, res) => {
       grouped[categoryName].push({
         id: item.id,
         name: item.name,
-        description: item.description
+        description: item.description,
+        price: item.price
       });
     });
 
