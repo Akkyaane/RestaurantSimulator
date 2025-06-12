@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
 });
 
 const cors = require('cors');
-app.use(cors());
+    app.use(cors());
 
 const menuRoutes = require('./routes/menuRoutes');
 const tableRoutes = require('./routes/tableRoutes');
