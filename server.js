@@ -1,19 +1,23 @@
 const express = require('express');
 const db = require('./config/db');
 const pool = db;
+const cors = require('cors');
 
 const app = express();
 const authRoutes = require('./routes/authRoutes'); // Chemin vers le fichier ci-dessus
 const reservationRoutes = require('./routes/reservationRoutes.js')
 require('dotenv').config();
 
-const cors = require('cors');
+
+
+
+app.use(express.json());
+
+//  Permet de gérer les requêtes CORS
 app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true
 }));
-
-app.use(express.json());
 // Permet d'ajouter les routes d'authentification
 app.use(authRoutes);
 
