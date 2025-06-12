@@ -7,6 +7,12 @@ const authRoutes = require('./routes/authRoutes'); // Chemin vers le fichier ci-
 const reservationRoutes = require('./routes/reservationRoutes.js')
 require('dotenv').config();
 
+const cors = require('cors');
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
+
 app.use(express.json());
 // Permet d'ajouter les routes d'authentification
 app.use(authRoutes);
@@ -31,11 +37,7 @@ app.get('/', (req, res) => {
     res.send('Bienvenue');
 });
 
-const cors = require('cors');
-app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true
-}));
+
 
 const menuRoutes = require('./routes/menuRoutes');
 const tableRoutes = require('./routes/tableRoutes');
