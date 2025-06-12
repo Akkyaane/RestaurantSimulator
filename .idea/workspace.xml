@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0ab4e4de-3012-4aa8-b251-096b3b55a53d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/config/db.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/db.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +24,7 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/opt/homebrew/Cellar/php/8.3.13_1/bin/php" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -89,7 +91,7 @@
       <workItem from="1747041047818" duration="126000" />
       <workItem from="1747041185989" duration="1148000" />
       <workItem from="1747043224161" duration="11870000" />
-      <workItem from="1749567801842" duration="37697000" />
+      <workItem from="1749567801842" duration="38245000" />
     </task>
     <servers />
   </component>
